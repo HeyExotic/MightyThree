@@ -4,11 +4,39 @@
 package org.example;
 
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
-
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+     
+        Squirrel squirrel1 = new Squirrel("Chipper");
+        Squirrel squirrel2 = new Squirrel("Nutty");
+        Squirrel squirrel3 = new Squirrel("Squeaky");
+        Squirrel squirrel4 = new Squirrel("Fluffy");
+        Squirrel squirrel5 = new Squirrel("Bushy");
+        
+     
+        SquirrelTree root = new SquirrelTree(squirrel1);
+        SquirrelTree node2 = new SquirrelTree(squirrel2);
+        SquirrelTree node3 = new SquirrelTree(squirrel3);
+        SquirrelTree node4 = new SquirrelTree(squirrel4);
+        SquirrelTree node5 = new SquirrelTree(squirrel5);
+     
+
+        root.attachChild(node2, "left");
+        root.attachChild(node3, "right");
+        node2.attachChild(node4, "left");
+        node3.attachChild(node5, "right");
+        
+      
+        System.out.println("In-order traversal:");
+        root.traverseInOrder();
+        
+        System.out.println("\nPre-order traversal:");
+        root.traversePreOrder();
+        
+        System.out.println("\nPost-order traversal:");
+        root.traversePostOrder();
+        
+     
+        System.out.println("\nRoot's left child: " + root.left().getSquirrel().getName());
+        System.out.println("Root's right child: " + root.right().getSquirrel().getName());
     }
 }

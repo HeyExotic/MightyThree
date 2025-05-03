@@ -7,8 +7,68 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AppTest {
-    @Test void appHasAGreeting() {
-        App classUnderTest = new App();
-        assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
+     
+    @Test
+    public void testTreeConstruction() {
+        Squirrel squirrel1 = new Squirrel("Chipper");
+        SquirrelTree root = new SquirrelTree(squirrel1);
+        
+        assertNotNull(root);
+        assertEquals("Chipper", root.getSquirrel().getName());
+        assertNull(root.left());
+        assertNull(root.right());
+    }
+    
+    @Test
+    public void testAttachChildren() {
+        Squirrel squirrel1 = new Squirrel("Chipper");
+        Squirrel squirrel2 = new Squirrel("Nutty");
+        Squirrel squirrel3 = new Squirrel("Squeaky");
+        
+        SquirrelTree root = new SquirrelTree(squirrel1);
+        SquirrelTree leftChild = new SquirrelTree(squirrel2);
+        SquirrelTree rightChild = new SquirrelTree(squirrel3);
+        
+        root.attachChild(leftChild, "left");
+        root.attachChild(rightChild, "right");
+        
+        assertNotNull(root.left());
+        assertNotNull(root.right());
+        assertEquals("Nutty", root.left().getSquirrel().getName());
+        assertEquals("Squeaky", root.right().getSquirrel().getName());
+    }
+    
+    @Test
+    public void testInvalidAttachment() {
+        Squirrel squirrel1 = new Squirrel("Chipper");
+        Squirrel squirrel2 = new Squirrel("Nutty");
+        
+        SquirrelTree root = new SquirrelTree(squirrel1);
+        SquirrelTree child = new SquirrelTree(squirrel2);
+        
+        assertThrows(IllegalArgumentException.class, () -> {
+            root.attachChild(child, "invalid");
+        });
+    }
+    
+    @Test
+    public void testTraversalOrders() {
+     
+        SquirrelTree root = new SquirrelTree(new Squirrel("A"));
+        SquirrelTree b = new SquirrelTree(new Squirrel("B"));
+        SquirrelTree c = new SquirrelTree(new Squirrel("C"));
+        
+        root.attachChild(b, "left");
+        root.attachChild(c, "right");
+        
+    
+        System.out.println("Testing in-order traversal:");
+        root.traverseInOrder();
+        
+        System.out.println("\nTesting pre-order traversal:");
+        root.traversePreOrder();
+        
+        System.out.println("\nTesting post-order traversal:");
+        root.traversePostOrder();
     }
 }
